@@ -1,0 +1,25 @@
+{
+  "name": "chido_tacos",
+  "version": "1.0.0",
+  "description": "Projeto de CMS para site de comida mexicana",
+  "main": "server.js",
+  "scripts": {
+    "test": "no test specified",
+    "start": "nodemon server"
+  },
+  "author": "Victor Mascarenhas",
+  "license": "ISC",
+  "engines":{
+    "node":"12.18.3"
+  },
+  "dependencies": {
+    "config": "^3.3.2",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "express-validator": "^6.6.1",
+    "mongoose": "^5.10.7"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  }
+}
