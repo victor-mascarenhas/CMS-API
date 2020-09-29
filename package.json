@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "test": "no test specified",
-    "start": "nodemon server"
+    "start": "node server",
+    "dev": "nodemon server"
   },
   "author": "Victor Mascarenhas",
   "license": "ISC",
