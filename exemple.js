@@ -1,41 +1,42 @@
-const banner = [
-    {
-    product_banner_photo = "",
-    product = fk,
-    direction = "L|R",
-    order = 1
-    }
-]
-
-const infos = [
-    {
-      icon: "",
-      text: "",
-      link: "",
-      order = 1
-    }    
-]
-
-const about = {
-    photo: "",
-    title: "",
-    description: "",
-    direction = "L|R"
-}
-
-const component_services = {
-    title: "",
-    description: "",
-    service = [
+const home_content = {
+    banner =[
         {
-            photo: "",
-            description: "",
+            product_banner_photo = "",
+            product = fk,
+            direction = "L|R",
             order = 1
         }
-    ]
+    ],
+
+    infos =[
+        {
+            icon: "",
+            text: "",
+            link: "",
+            order = 1
+        }
+    ],
+    about = {
+        photo: "",
+        title: "",
+        description: "",
+        direction = "L|R"
+    },
+
+    component_services = {
+        title: "",
+        description: "",
+        service =[
+            {
+                photo: "",
+                description: "",
+                order = 1
+            }
+        ]
+    }
 }
 
-const product= {
+const product = {
     photo: "",
     title: "",
     category: fk,
