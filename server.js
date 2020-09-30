@@ -19,4 +19,4 @@ app.get('/', (req, res) => res.send('Hello!'))
 app.use('/category', require('./routes/api/category'))
 
 
-app.listen(PORT, () => {console.log(`port ${PORT}`)})
+app.listen(PORT, () => {console.log(`Listening on: ${PORT}`)})

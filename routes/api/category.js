@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { check, validationResult } = require('express-validator');
 const Category = require('../../models/category');
+const MSGS = require('../../messages')
 
 
 //@route  POST /category
@@ -25,7 +26,7 @@ router.post('/', [
       } 
     }catch(err){
         console.error(err.message)
-        res.status(500).send({'error': 'server error'})
+        res.status(500).send({'error': MSGS.GENERIC_ERROR})
     }
 })
 
@@ -38,9 +39,29 @@ router.get('/', async (req, res, next) => {
         res.json(category)        
     }catch(err){
         console.error(err.message)
-        res.status(500).send({"error":"Server error"})
+        res.status(500).send({"error": MSGS.GENERIC_ERROR})
     }
                 
 })
+
+//@route   GET/category
+//@desc    DETAIL category
+//@access  Public
+router.get('/:categoryId', async (req, res, next) => {
+    try {
+        const id = req.params.id
+        const category = await Category.findOne({_id : id})
+        if(category){
+            res.json(category)  
+        }else{
+            res.status(404).send({"error": MSGS.CATEGORY_404})
+        }      
+    }catch(err){
+        console.error(err.message)
+        res.status(500).send({"error": MSGS.GENERIC_ERROR})
+    }
+                
+})
+
 
 module.exports = router;
