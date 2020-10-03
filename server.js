@@ -17,6 +17,8 @@ connectDB()
 //Define Routes
 app.get('/', (req, res) => res.send('Hello!'))
 app.use('/category', require('./routes/api/category'))
+app.use('/product', require('./routes/api/product'))
+app.use('/user', require('./routes/api/user'))
 
 
 app.listen(PORT, () => {console.log(`Listening on: ${PORT}`)})

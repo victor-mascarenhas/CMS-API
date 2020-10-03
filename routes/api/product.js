@@ -1,27 +1,25 @@
 const express = require('express');
 const router = express.Router();
 const { check, validationResult } = require('express-validator');
-const Category = require('../../models/category');
+const Product = require('../../models/product');
 const MSGS = require('../../messages')
 
 
-//@route  POST /category
-//@desc   CREATE category
+//@route  POST /product
+//@desc   CREATE product
 //@acess  Public
-router.post('/', [
-    check('name', "Name Required").not().isEmpty(),check('icon').not().isEmpty()   
-], async (req, res, next) => {
-    try{
-        let { name, icon } = req.body        
+router.post('/', [], async (req, res, next) => {
+    try{          
         const errors = validationResult(req)        
         if (!errors.isEmpty()) {
             return res.status(400).json ({ errors: errors.array()})
         }else{
-            let category = new Category({name, icon})
+            // TODO get last_modified_by by req.user after cod auth
+            let product = new Product(req.body)
         
-        await category.save()        
-        if (category.id){
-            res.status(201).json(category);
+        await product.save()        
+        if (product.id){
+            res.status(201).json(product);
         }      
       } 
     }catch(err){
@@ -30,13 +28,13 @@ router.post('/', [
     }
 })
 
-//@route   GET/category
-//@desc    LIST category
+//@route   GET/product
+//@desc    LIST product
 //@access  Public
 router.get('/', async (req, res, next) => {
     try {
-        const category = await Category.find({})
-        res.json(category)        
+        const product = await Product.find({})
+        res.json(product)        
     }catch(err){
         console.error(err.message)
         res.status(500).send({"error": MSGS.GENERIC_ERROR})
@@ -44,17 +42,17 @@ router.get('/', async (req, res, next) => {
                 
 })
 
-//@route   GET/category/:id
-//@desc    DETAIL category
+//@route   GET/product/:id
+//@desc    DETAIL product
 //@access  Public
 router.get('/:id', async (req, res, next) => {
     try {
         const id = req.params.id
-        const category = await Category.findOne({_id : id})
-        if(category){
-            res.json(category)  
+        const product = await Product.findOne({_id : id})
+        if(product){
+            res.json(product)  
         }else{
-            res.status(404).send({"error": MSGS.CATEGORY_404})
+            res.status(404).send({"error": MSGS.PRODUCT_404})
         }      
     }catch(err){
         console.error(err.message)
@@ -63,17 +61,17 @@ router.get('/:id', async (req, res, next) => {
                 
 })
 
-//@route   DELETE/category/:id
-//@desc    DELETE category
+//@route   DELETE/product/:id
+//@desc    DELETE product
 //@access  Public
 router.delete('/:id', async (req, res, next) => {
     try {
         const id = req.params.id
-        const category = await Category.findOneAndDelete({_id : id})
-        if(category){
-            res.json(category)  
+        const product = await Product.findOneAndDelete({_id : id})
+        if(product){
+            res.json(product)  
         }else{
-            res.status(404).send({"error": MSGS.CATEGORY_404})
+            res.status(404).send({"error": MSGS.PRODUCT_404})
         }      
     }catch(err){
         console.error(err.message)
@@ -82,18 +80,18 @@ router.delete('/:id', async (req, res, next) => {
                 
 })
 
-//@route   PATCH/category/:id
-//@desc    PARTIAL UPDATE category
+//@route   PATCH/product/:id
+//@desc    PARTIAL UPDATE product
 //@access  Public
 router.patch('/:id', async (req, res, next) => {
     try {
         const id = req.params.id
         const update = {$set: req.body}
-        const category = await Category.findByIdAndUpdate(id, update,{new: true})
-        if(category){
-            res.json(category)  
+        const product = await Product.findByIdAndUpdate(id, update,{new: true})
+        if(product){
+            res.json(product)  
         }else{
-            res.status(404).send({"error": MSGS.CATEGORY_404})
+            res.status(404).send({"error": MSGS.PRODUCT_404})
         }      
     }catch(err){
         console.error(err.message)

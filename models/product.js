@@ -1,10 +1,6 @@
 const mongoose = require('mongoose');
 
-const CategorySchema = new mongoose.Schema({
-    name : {
-        type : String,
-        required : true
-    },
+const ProductSchema = new mongoose.Schema({    
     photo: {
         type : String,
         required : true
@@ -44,8 +40,8 @@ const CategorySchema = new mongoose.Schema({
     },
     last_modified_user: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'user',
-        required: true
+        ref: 'user'
+        
     },
     last_modified_date: {
         type: Date,
@@ -57,4 +53,4 @@ const CategorySchema = new mongoose.Schema({
     },  
 }, {autoCreate : true})
 
-module.exports = mongoose.model('category', CategorySchema);
+module.exports = mongoose.model('product', ProductSchema);
