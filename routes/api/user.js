@@ -3,13 +3,14 @@ const User = require('../../models/user');
 const { check, validationResult } = require('express-validator');
 const router = express.Router();
 const bcrypt = require('bcrypt');
-const MSGS = require('../../messages')
+const MSGS = require('../../messages');
+const auth = require('../../middleware/auth');
 
 
 // @route    GET /user/:userId
 // @desc     DETAIL user
-// @access   Public
-router.get('/:userId', [], async (req, res, next) => {
+// @access   Private
+router.get('/:userId', auth, async (req, res, next) => {
   try {
     const id = req.params.userId
     const user = await User.findOne({_id : id})
