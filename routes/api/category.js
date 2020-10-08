@@ -3,6 +3,7 @@ const router = express.Router();
 const { check, validationResult } = require('express-validator');
 const Category = require('../../models/category');
 const MSGS = require('../../messages')
+const auth = require('../../middleware/auth');
 
 
 //@route  POST /category
@@ -10,7 +11,7 @@ const MSGS = require('../../messages')
 //@acess  Public
 router.post('/', [
     check('name', "Name Required").not().isEmpty(),check('icon').not().isEmpty()   
-], async (req, res, next) => {
+], auth, async (req, res, next) => {
     try{
         let { name, icon } = req.body        
         const errors = validationResult(req)        
@@ -33,7 +34,7 @@ router.post('/', [
 //@route   GET/category
 //@desc    LIST category
 //@access  Public
-router.get('/', async (req, res, next) => {
+router.get('/', auth, async (req, res, next) => {
     try {
         const category = await Category.find({})
         res.json(category)        
@@ -47,7 +48,7 @@ router.get('/', async (req, res, next) => {
 //@route   GET/category/:id
 //@desc    DETAIL category
 //@access  Public
-router.get('/:id', async (req, res, next) => {
+router.get('/:id', auth, async (req, res, next) => {
     try {
         const id = req.params.id
         const category = await Category.findOne({_id : id})
@@ -66,7 +67,7 @@ router.get('/:id', async (req, res, next) => {
 //@route   DELETE/category/:id
 //@desc    DELETE category
 //@access  Public
-router.delete('/:id', async (req, res, next) => {
+router.delete('/:id', auth, async (req, res, next) => {
     try {
         const id = req.params.id
         const category = await Category.findOneAndDelete({_id : id})
@@ -85,7 +86,7 @@ router.delete('/:id', async (req, res, next) => {
 //@route   PATCH/category/:id
 //@desc    PARTIAL UPDATE category
 //@access  Public
-router.patch('/:id', async (req, res, next) => {
+router.patch('/:id', auth, async (req, res, next) => {
     try {
         const id = req.params.id
         const update = {$set: req.body}

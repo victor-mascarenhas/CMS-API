@@ -27,8 +27,8 @@ router.get('/:userId', auth, async (req, res, next) => {
 
 // @route    DELETE /user/:userId
 // @desc     DELETE user
-// @access   Public
-router.delete('/:userId', async(req, res, next) => {
+// @access   Private
+router.delete('/:userId', auth, async(req, res, next) => {
   try {
     const id = req.params.userId
     const user = await User.findOneAndDelete({_id : id})
@@ -45,12 +45,12 @@ router.delete('/:userId', async(req, res, next) => {
 
 // @route    PUT /user/:userId
 // @desc     EDIT user
-// @access   Public
+// @access   Private
 router.put('/:userId', [
   check('email', 'email is not valid').isEmail(),
   check('name').not().isEmpty(),
   check('password', 'Please enter a password with 6 or more characters').isLength({ min: 6 })
-], async (req, res, next) => {
+], auth, async (req, res, next) => {
   try {
     const errors = validationResult(req)
     if (!errors.isEmpty()) {
@@ -78,8 +78,8 @@ router.put('/:userId', [
 
 // @route    PATCH /user/:userId
 // @desc     PARTIAL EDIT user
-// @access   Public
-router.patch('/:userId', [], async (request, res, next) => {
+// @access   Private
+router.patch('/:userId', auth, async (request, res, next) => {
   try {
     const errors = validationResult(request)
     if (!errors.isEmpty()) {
@@ -109,8 +109,8 @@ router.patch('/:userId', [], async (request, res, next) => {
 
 // @route    GET /user
 // @desc     LIST user
-// @access   Public
-router.get('/', async (req, res, next) => {
+// @access   Private
+router.get('/', auth, async (req, res, next) => {
   try {
     const user = await User.find({})
     res.json(user)

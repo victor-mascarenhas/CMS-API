@@ -2,13 +2,14 @@ const express = require('express');
 const router = express.Router();
 const { check, validationResult } = require('express-validator');
 const Product = require('../../models/product');
-const MSGS = require('../../messages')
+const MSGS = require('../../messages');
+const auth = require('../../middleware/auth');
 
 
 //@route  POST /product
 //@desc   CREATE product
 //@acess  Public
-router.post('/', [], async (req, res, next) => {
+router.post('/', auth, async (req, res, next) => {
     try{          
         const errors = validationResult(req)        
         if (!errors.isEmpty()) {
@@ -31,7 +32,7 @@ router.post('/', [], async (req, res, next) => {
 //@route   GET/product
 //@desc    LIST product
 //@access  Public
-router.get('/', async (req, res, next) => {
+router.get('/', auth, async (req, res, next) => {
     try {
         const product = await Product.find({})
         res.json(product)        
@@ -45,7 +46,7 @@ router.get('/', async (req, res, next) => {
 //@route   GET/product/:id
 //@desc    DETAIL product
 //@access  Public
-router.get('/:id', async (req, res, next) => {
+router.get('/:id', auth, async (req, res, next) => {
     try {
         const id = req.params.id
         const product = await Product.findOne({_id : id})
@@ -64,7 +65,7 @@ router.get('/:id', async (req, res, next) => {
 //@route   DELETE/product/:id
 //@desc    DELETE product
 //@access  Public
-router.delete('/:id', async (req, res, next) => {
+router.delete('/:id', auth, async (req, res, next) => {
     try {
         const id = req.params.id
         const product = await Product.findOneAndDelete({_id : id})
@@ -83,7 +84,7 @@ router.delete('/:id', async (req, res, next) => {
 //@route   PATCH/product/:id
 //@desc    PARTIAL UPDATE product
 //@access  Public
-router.patch('/:id', async (req, res, next) => {
+router.patch('/:id', auth, async (req, res, next) => {
     try {
         const id = req.params.id
         const update = {$set: req.body}

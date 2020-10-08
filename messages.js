@@ -1,6 +1,7 @@
 
 const MSGS = {
     'CATEGORY_404' : 'Categoria não encontrada',
+    'CONTENT_404' : 'Conteúdo não encontrada',
     'GENERIC_ERROR' : "Server Error",
     'PRODUCT_404' : 'Produto não encontrado',
     'USER_404' : 'Usuário não encontrado',
