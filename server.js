@@ -15,6 +15,10 @@ app.use(bodyparser.json());
 //Mongo Connect
 connectDB()
 
+app.use(fileUpload({
+    createParentPath: true
+}));
+
 //Define Routes
 app.get('/', (req, res) => res.send('Hello!'))
 app.use('/category', require('./routes/api/category'))

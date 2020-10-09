@@ -2,6 +2,9 @@
 const MSGS = {
     'CATEGORY_404' : 'Categoria não encontrada',
     'CONTENT_404' : 'Conteúdo não encontrada',
+    'FILE_INVALID_FORMAT': "Por favor envie um arquivo .jpeg ou .png",
+    'FILE_NOT_SENT': "Por favor envie o arquivo",
+    'FILE_UPLOADED': "Arquivo enviado com sucesso!",
     'GENERIC_ERROR' : "Server Error",
     'PRODUCT_404' : 'Produto não encontrado',
     'USER_404' : 'Usuário não encontrado',
