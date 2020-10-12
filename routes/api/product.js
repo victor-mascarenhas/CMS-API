@@ -4,18 +4,20 @@ const { check, validationResult } = require('express-validator');
 const Product = require('../../models/product');
 const MSGS = require('../../messages');
 const auth = require('../../middleware/auth');
+const file = require('../../middleware/file')
 
 
 //@route  POST /product
 //@desc   CREATE product
 //@acess  Public
-router.post('/', auth, async (req, res, next) => {
+router.post('/', auth, file, async (req, res, next) => {
     try{          
         const errors = validationResult(req)        
         if (!errors.isEmpty()) {
             return res.status(400).json ({ errors: errors.array()})
         }else{
             // TODO get last_modified_by by req.user after cod auth
+            req.body.photo = `uploads/${req.files.photo.name}`
             let product = new Product(req.body)
         
         await product.save()        

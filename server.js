@@ -11,6 +11,7 @@ app.use(cors())
 app.use(express.json())
 app.use(bodyparser.urlencoded({extended:true}));
 app.use(bodyparser.json());
+app.use('/uploads', express.static('uploads'))
 
 //Mongo Connect
 connectDB()
@@ -25,7 +26,7 @@ app.use('/category', require('./routes/api/category'))
 app.use('/product', require('./routes/api/product'))
 app.use('/content', require('./routes/api/content'))
 app.use('/user', require('./routes/api/user'))
-app.use('/file', require('./routes/api/file'))
+app.use('/file', require('./middleware/file'))
 app.use('/auth', require('./routes/api/auth'))
 
 
