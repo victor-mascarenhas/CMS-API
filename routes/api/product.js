@@ -5,6 +5,7 @@ const Product = require('../../models/product');
 const MSGS = require('../../messages');
 const auth = require('../../middleware/auth');
 const file = require('../../middleware/file')
+const config = require('config');
 
 
 //@route  POST /product
@@ -17,11 +18,13 @@ router.post('/', auth, file, async (req, res, next) => {
             return res.status(400).json ({ errors: errors.array()})
         }else{
             // TODO get last_modified_by by req.user after cod auth
-            req.body.photo = `uploads/${req.files.photo.name}`
+            req.body.photo = `product/${req.body.photo_name}`
             let product = new Product(req.body)
         
         await product.save()        
         if (product.id){
+            const BUCKET_PUBLIC_PATH = process.env.BUCKET_PUBLIC_PATH || config.get('BUCKET_PUBLIC_PATH')
+            product.photo = `${BUCKET_PUBLIC_PATH}${product.photo}`
             res.status(201).json(product);
         }      
       } 
@@ -34,10 +37,15 @@ router.post('/', auth, file, async (req, res, next) => {
 //@route   GET/product
 //@desc    LIST product
 //@access  Public
-router.get('/', auth, async (req, res, next) => {
+router.get('/', async (req, res, next) => {
     try {
-        const product = await Product.find({})
-        res.json(product)        
+        let products = await Product.find({})
+        const BUCKET_PUBLIC_PATH = process.env.BUCKET_PUBLIC_PATH || config.get('BUCKET_PUBLIC_PATH')
+        products = products.map(function(product){
+        product.photo = `${BUCKET_PUBLIC_PATH}${product.photo}`
+        return product
+    })
+        res.json(products)        
     }catch(err){
         console.error(err.message)
         res.status(500).send({"error": MSGS.GENERIC_ERROR})
