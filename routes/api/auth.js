@@ -41,7 +41,7 @@ router.post('/',[
                 })
             }
         }
-        }catch{
+        }catch(err){
         console.error(err.message)
         res.status(500).send({"error":"Server error"})
         }
