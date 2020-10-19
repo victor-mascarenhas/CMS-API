@@ -36,7 +36,11 @@ module.exports = async function (req, res, next) {
         });
 
         if (!req.files) {
+            if (req.method == 'PATCH'){
+                next()
+            }else{
             res.status(204).send({ error: MSGS.FILE_NOT_SENT });
+            }
         } else {
             let photo = req.files.photo
             const name = slugify(photo.name)

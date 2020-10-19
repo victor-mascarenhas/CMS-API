@@ -16,10 +16,10 @@ router.post('/', auth, file, async (req, res, next) => {
         const errors = validationResult(req)        
         if (!errors.isEmpty()) {
             return res.status(400).json ({ errors: errors.array()})
-        }else{
-            // TODO get last_modified_by by req.user after cod auth
+        }else{            
             req.body.photo = `product/${req.body.photo_name}`
             let product = new Product(req.body)
+            product.last_modified_by = req.user.id
         
         await product.save()        
         if (product.id){
@@ -94,12 +94,19 @@ router.delete('/:id', auth, async (req, res, next) => {
 //@route   PATCH/product/:id
 //@desc    PARTIAL UPDATE product
 //@access  Public
-router.patch('/:id', auth, async (req, res, next) => {
+router.patch('/:id', auth, file, async (req, res, next) => {
     try {
+        req.body.last_modified_by = req.user.id
+        if(req.body.photo_name){
+        req.body.photo = `product/${req.body.photo_name}`
+        }
         const id = req.params.id
         const update = {$set: req.body}
-        const product = await Product.findByIdAndUpdate(id, update,{new: true})
+        const product = await Product.findByIdAndUpdate(id, update,{new: true})        
+        
         if(product){
+            const BUCKET_PUBLIC_PATH = process.env.BUCKET_PUBLIC_PATH || config.get('BUCKET_PUBLIC_PATH')
+            product.photo = `${BUCKET_PUBLIC_PATH}${product.photo}`
             res.json(product)  
         }else{
             res.status(404).send({"error": MSGS.PRODUCT_404})

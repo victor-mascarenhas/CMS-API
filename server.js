@@ -26,7 +26,6 @@ app.use('/category', require('./routes/api/category'))
 app.use('/product', require('./routes/api/product'))
 app.use('/content', require('./routes/api/content'))
 app.use('/user', require('./routes/api/user'))
-app.use('/file', require('./middleware/file'))
 app.use('/auth', require('./routes/api/auth'))
 
 

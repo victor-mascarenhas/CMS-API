@@ -38,7 +38,7 @@ const ProductSchema = new mongoose.Schema({
         type : Number,
         min: 1        
     },
-    last_modified_user: {
+    last_modified_by: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'user'
         
