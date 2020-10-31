@@ -21,9 +21,9 @@ module.exports = async function (req, res, next) {
             res.status(204).send({ error: MSGS.FILE_NOT_SENT });
             }
         } else {
-            let photo = req.files.photo
+            let photo = req.files['about.photo']
             const name = slugfy(photo.name)
-            req.body.photo_name = name
+            req.body.about_photo_name = name
 
             if (photo.mimetype.includes('image/')) {
                 
@@ -31,7 +31,7 @@ module.exports = async function (req, res, next) {
                 const params = {
                     Bucket: BUCKET_NAME,
                     ACL: 'public-read',
-                    Key: `product/${name}`,
+                    Key: `about/${name}`,
                     Body: fs.createReadStream(`./uploads/${name}`)
                 };
                 s3.upload(params, function (err,data){
@@ -46,10 +46,12 @@ module.exports = async function (req, res, next) {
                 })
                 //photo.mv('./uploads/' + photo.name)                
             } else {
+                console.error(err.message)
                 res.status(400).send({ message: MSGS.FILE_INVALID_FORMAT});
             }
         }
     } catch (err) {
+        console.error(err.message)
         res.status(500).send({ "error": err.message })
     }
 }

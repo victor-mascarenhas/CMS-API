@@ -85,7 +85,11 @@ const HomeContentSchema = new mongoose.Schema({
                 }
             }
         ]
-    }
+    },
+    last_modified_date: {
+        type: Date,
+        default: Date.now
+      },
 }, { autoCreate: true })
 
 module.exports = mongoose.model('content', HomeContentSchema);
