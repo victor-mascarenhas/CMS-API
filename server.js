@@ -25,6 +25,7 @@ app.get('/', (req, res) => res.send('Hello!'))
 app.use('/category', require('./routes/api/category'))
 app.use('/product', require('./routes/api/product'))
 app.use('/content', require('./routes/api/content'))
+app.use('/banner', require('./routes/api/banner'))
 app.use('/user', require('./routes/api/user'))
 app.use('/auth', require('./routes/api/auth'))
 

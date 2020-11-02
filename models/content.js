@@ -4,7 +4,7 @@ const HomeContentSchema = new mongoose.Schema({
     
     banner: [
         {
-            product_banner_photo: {
+            photo: {
                 type: String,
                 required: true
             },

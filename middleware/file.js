@@ -13,6 +13,7 @@ module.exports = async function (req, res, next) {
             accessKeyId: process.env.AWS_ACCESS_KEY_ID || config.get('AWS_ACCESS_KEY_ID'),
             secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY || config.get('AWS_SECRET_ACCESS_KEY')
         });
+        const folder = req.baseUrl.replace("/", "")
 
         if (!req.files) {
             if (req.method == 'PATCH'){
@@ -31,7 +32,7 @@ module.exports = async function (req, res, next) {
                 const params = {
                     Bucket: BUCKET_NAME,
                     ACL: 'public-read',
-                    Key: `product/${name}`,
+                    Key: `${folder}/${name}`,
                     Body: fs.createReadStream(`./uploads/${name}`)
                 };
                 s3.upload(params, function (err,data){

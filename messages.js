@@ -1,7 +1,7 @@
 
 const MSGS = {
     'CATEGORY_404' : 'Categoria não encontrada',
-    'CONTENT_404' : 'Conteúdo não encontrada',
+    'CONTENT_404' : 'Conteúdo não encontrado',
     'FILE_INVALID_FORMAT': "Por favor envie um arquivo .jpeg ou .png",
     'FILE_NOT_SENT': "Por favor envie o arquivo",
     'FILE_UPLOADED': "Arquivo enviado com sucesso!",
@@ -12,7 +12,7 @@ const MSGS = {
     'INVALID_TOKEN' : 'Token inválido',
     'VALID_EMAIL' : 'Por favor, insira um email válido',
     'REQUIRED_PASSWORD': 'Por favor, insira sua senha',
-    'WRONG_PASSORD' : 'Senha incorreta',
+    'WRONG_PASSORD' : 'Senha incorreta'
 }
 
 module.exports = MSGS
