@@ -15,18 +15,17 @@ module.exports = async function (req, res, next) {
         });
 
         if (!req.files) {
-            if (req.method == 'PATCH'){
+            if (req.method == 'PATCH') {
                 next()
-            }else{
-            res.status(204).send({ error: MSGS.FILE_NOT_SENT });
+            } else {
+                res.status(204).send({ error: MSGS.FILE_NOT_SENT });
             }
         } else {
             let photo = req.files['about.photo']
             const name = slugfy(photo.name)
-            req.body.about_photo_name = name
 
             if (photo.mimetype.includes('image/')) {
-                
+
                 const file = await photo.mv(`./uploads/${name}`)
                 const params = {
                     Bucket: BUCKET_NAME,
@@ -34,20 +33,21 @@ module.exports = async function (req, res, next) {
                     Key: `about/${name}`,
                     Body: fs.createReadStream(`./uploads/${name}`)
                 };
-                s3.upload(params, function (err,data){
-                    if(err){
+                s3.upload(params, function (err, data) {
+                    if (err) {
                         console.error(err);
                         res.status(500).send(err);
-                    }else{
+                    } else {
                         console.log(`File uploaded successfully. ${data.Location}`);
                         fs.unlinkSync(`./uploads/${name}`)
+                        req.body['about.photo'] = `about/${name}`
                         next()
                     }
                 })
                 //photo.mv('./uploads/' + photo.name)                
             } else {
                 console.error(err.message)
-                res.status(400).send({ message: MSGS.FILE_INVALID_FORMAT});
+                res.status(400).send({ message: MSGS.FILE_INVALID_FORMAT });
             }
         }
     } catch (err) {

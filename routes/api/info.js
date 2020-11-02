@@ -10,20 +10,20 @@ const get_max_order = require('../../service/get_max_order');
 
 
 
-// @route    POST /banner
-// @desc     CREATE banner
+// @route    POST /info
+// @desc     CREATE info
 // @access   Private
 router.post('/:contentId', auth, file, async (req, res, next) => {
   try {
     const id = req.params.contentId
-    if(req.body.photo_name){
-        req.body.photo = `banner/${req.body.photo_name}`
-        }
-        let content = await Content.findOne({ _id: id })
+    if (req.body.photo_name) {
+      req.body.photo = `info/${req.body.photo_name}`
+    }
+    let content = await Content.findOne({ _id: id })
     if (!req.body.order) {
-      req.body.order = get_max_order(content, 'banner')
-    }    
-    content = await Content.findOneAndUpdate({ _id: id }, { $push: { banner: req.body } }, { new: true })
+      req.body.order = get_max_order(content, 'infos')
+    }
+    content = await Content.findOneAndUpdate({ _id: id }, { $push: { infos: req.body } }, { new: true })
     if (content) {
       content = complete_link(content)
       res.json(content)
@@ -36,13 +36,13 @@ router.post('/:contentId', auth, file, async (req, res, next) => {
   }
 })
 
-// @route    DELETE /banner
-// @desc     DELETE banner
+// @route    DELETE /info
+// @desc     DELETE info
 // @access   Private
 router.delete('/:contentId', auth, async (req, res, next) => {
   try {
     const id = req.params.contentId
-    let content = await Content.findOneAndUpdate({ _id: id }, { $pull: { banner: req.body } }, { new: true })
+    let content = await Content.findOneAndUpdate({ _id: id }, { $pull: { infos: req.body } }, { new: true })
     if (content) {
       content = complete_link(content)
       res.json(content)

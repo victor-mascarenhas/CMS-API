@@ -27,7 +27,7 @@ const HomeContentSchema = new mongoose.Schema({
 
     infos: [
         {
-            icon: {
+            photo: {
                 type: String,
                 required: true
             },
@@ -86,6 +86,22 @@ const HomeContentSchema = new mongoose.Schema({
             }
         ]
     },
+    footer : [
+        {
+           title : {
+               type : String,
+               required : true
+           },
+           description : {
+               type : String,
+               required : true
+           },
+           order : {
+               type : Number,
+               min: 1
+           }
+       }
+   ],
     last_modified_date: {
         type: Date,
         default: Date.now
