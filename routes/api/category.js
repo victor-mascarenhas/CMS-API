@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { check, validationResult } = require('express-validator');
 const Category = require('../../models/category');
+const Product = require('../../models/product');
 const MSGS = require('../../messages')
 const auth = require('../../middleware/auth');
 
@@ -70,9 +71,15 @@ router.get('/:id', auth, async (req, res, next) => {
 router.delete('/:id', auth, async (req, res, next) => {
     try {
         const id = req.params.id
-        const category = await Category.findOneAndDelete({_id : id})
+        let category = await Category.findOne({_id : id})
         if(category){
-            res.json(category)  
+            const productsByCategory = await Product.find({category: category._id})
+            if (productsByCategory.lentgh > 0){
+                res.status(400).send({ "error": MSGS.CANTDELETE})
+            }else{
+                await Category.findOneAndDelete({_id: id})
+                res.json(category)  
+            }           
         }else{
             res.status(404).send({"error": MSGS.CATEGORY_404})
         }      
