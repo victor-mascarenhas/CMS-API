@@ -55,4 +55,38 @@ router.delete('/:contentId', auth, async (req, res, next) => {
   }
 })
 
+
+// @route    PATCH /infos/:contentId-:infoId
+// @desc     PATCH infos
+// @access   Private
+router.patch('/:contentId-:infoId', auth, file, async (req, res, next) => {
+  try {
+    const infoId = req.params.infoId
+
+    let query = {'infos._id' : infoId}
+    if(req.body.photo_name){
+      req.body.photo = `info/${req.body.photo_name}`
+    }
+    let update = {}
+    for (const [key, value] of Object.entries(req.body)) {
+      update[`infos.$.${key}`] = value
+    }
+    await Content.updateOne(query, {$set : update}, { new: true })
+    let content = await Content.findOne(query)
+    
+    if (content.id){
+      content = complete_link(content)
+      res.json(content)
+    } else {
+      res.status(404).send({ "error": MSGS.CONTENT_404 })
+    }
+  } catch (err) {
+    console.error(err.message)
+    res.status(500).send({ "error": MSGS.GENERIC_ERROR  })
+  }
+})
+
+
+
+
 module.exports = router;
