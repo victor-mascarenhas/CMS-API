@@ -35,7 +35,7 @@ router.post('/', [
 //@route   GET/category
 //@desc    LIST category
 //@access  Public
-router.get('/', auth, async (req, res, next) => {
+router.get('/', async (req, res, next) => {
     try {
         const category = await Category.find({})
         res.json(category)        
@@ -49,7 +49,7 @@ router.get('/', auth, async (req, res, next) => {
 //@route   GET/category/:id
 //@desc    DETAIL category
 //@access  Public
-router.get('/:id', auth, async (req, res, next) => {
+router.get('/:id', async (req, res, next) => {
     try {
         const id = req.params.id
         const category = await Category.findOne({_id : id})
