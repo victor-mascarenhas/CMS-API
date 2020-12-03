@@ -6,7 +6,6 @@ const nodemailer = require('nodemailer')
 router.post('/', (req, res) => {
     const transporter = nodemailer.createTransport({
         host: "smtp.mailtrap.io",
-        port: process.env.PORT || 2525,
         auth: {
             user: "a0e619621fe632",
             pass: "86c2ca55b8b003"
