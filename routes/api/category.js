@@ -11,7 +11,7 @@ const auth = require('../../middleware/auth');
 //@desc   CREATE category
 //@acess  Public
 router.post('/', [
-    check('name', "Name Required").not().isEmpty(),check('icon').not().isEmpty()   
+    check('name', "Name Required").not().isEmpty()   
 ], auth, async (req, res, next) => {
     try{
         let { name, icon } = req.body        
