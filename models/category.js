@@ -6,8 +6,7 @@ const CategorySchema = new mongoose.Schema({
         required : true
     },
     icon: {
-        type: String,
-        required: true       
+        type: String     
     },
     status: {
         type: Boolean,
